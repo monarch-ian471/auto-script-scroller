@@ -1,0 +1,61 @@
+/* Add styles here */
+body {
+    margin: 0;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+#input-container {
+    display: block;
+    text-align: center;
+    margin-bottom: 20px;
+}
+#script-container {
+    width: 80%;
+    height: 70vh;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    display: none;
+}
+#script-text {
+    position: absolute;
+    top: 100%;
+    font-size: 2em;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    animation: scrollText linear infinite;
+}
+@keyframes scrollText {
+    from { top: 100%; }
+    to { top: -100%; }
+}
+#controls {
+    margin-top: 20px;
+    display: none;
+}
+textarea {
+    width: 80%;
+    height: 200px;
+    font-size: 1.2em;
+    padding: 10px;
+}
+button, input {
+    padding: 10px;
+    font-size: 1em;
+    margin: 5px;
+}
+#share-link {
+    width: 80%;
+    padding: 10px;
+    font-size: 1em;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    margin-top: 10px;
+}
