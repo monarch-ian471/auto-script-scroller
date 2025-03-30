@@ -4,45 +4,22 @@ const scriptContainer = document.getElementById('script-container');
 const controls = document.getElementById('controls');
 const textInput = document.getElementById('text-input');
 const shareLink = document.getElementById('share-link');
+const warning = document.getElementById('warning');
 
 let isPlaying = false;
-let duration = 60; // Default scroll duration in seconds
+let baseSpeed = 180; // Seconds per 1000 words
 
-function initialize() {
-    // Event listeners
-    document.getElementById('start-button').addEventListener('click', startScrolling);
-    document.getElementById('speed').addEventListener('input', updateSpeed);
-    document.getElementById('play-pause-button').addEventListener('click', togglePlay);
-    document.getElementById('copy-button').addEventListener('click', copyLink);
-
-    // Check for preloaded text in the URL
-    checkForPreloadedText();
-}
-
-function checkForPreloadedText() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const preloadedText = urlParams.get('text');
-    if (preloadedText) {
-        textInput.value = decodeURIComponent(preloadedText);
-        startScrolling();
-    }
-}
-
-function generateShareableLink(text) {
-    const encodedText = encodeURIComponent(text);
-    const currentUrl = window.location.origin + window.location.pathname;
-    return `${currentUrl}?text=${encodedText}`;
-}
-
-function updateAnimation() {
-    scriptText.style.animation = `scrollText ${duration}s linear infinite`;
-}
-// Check URL for preloaded text
 const urlParams = new URLSearchParams(window.location.search);
 const preloadedText = urlParams.get('text');
 if (preloadedText) {
     textInput.value = decodeURIComponent(preloadedText);
     startScrolling();
+}
+
+function calculateDuration(text) {
+    const wordCount = text.split(/\s+/).length;
+    const speedPerWord = baseSpeed / 1000; // Seconds per word
+    return Math.max(wordCount * speedPerWord, 10); // Minimum 10 seconds
 }
 
 function startScrolling() {
@@ -51,24 +28,29 @@ function startScrolling() {
         alert('Please paste some text first!');
         return;
     }
-
-    // Hide input, show script and controls
     inputContainer.style.display = 'none';
     scriptContainer.style.display = 'block';
     controls.style.display = 'block';
-
-    // Set and start scrolling
     scriptText.textContent = userText;
+
+    const duration = calculateDuration(userText);
     scriptText.style.animation = `scrollText ${duration}s linear infinite`;
     isPlaying = true;
 
-    // Generate shareable link
-    shareLink.value = generateShareableLink(userText);
+    const encodedText = encodeURIComponent(userText);
+    const currentUrl = window.location.origin + window.location.pathname;
+    shareLink.value = `${currentUrl}?text=${encodedText}`;
+    
+    // Show warning if text is too long for URL
+    if (userText.length > 2000) {
+        warning.style.display = 'block';
+    }
 }
 
 function updateSpeed() {
-    duration = parseInt(document.getElementById('speed').value);
+    baseSpeed = parseInt(document.getElementById('speed').value);
     if (isPlaying) {
+        const duration = calculateDuration(scriptText.textContent);
         scriptText.style.animation = `scrollText ${duration}s linear infinite`;
     }
 }
@@ -86,8 +68,4 @@ function copyLink() {
     shareLink.select();
     document.execCommand('copy');
     alert('Link copied to clipboard!');
-}
-
-function main() {
-  initialize();
 }

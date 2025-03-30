@@ -18,11 +18,12 @@
   </div>
   <div id="controls">
       <button onclick="togglePlay()">Play/Pause</button>
-      <label for="speed">Speed (seconds):</label>
+      <label for="speed">Speed (seconds per 1000 words):</label>
       <input type="number" id="speed" value="60" min="10" step="5" onchange="updateSpeed()">
       <br>
       <input type="text" id="share-link" readonly>
       <button onclick="copyLink()">Copy Link</button>
+      <p id="warning" style="display: none; color: yellow;">Note: Texts over 2000 characters may not share fully via URL</p>
   </div>
   <script defer type="text/javascript" src="/main.js"></script>
 </body>

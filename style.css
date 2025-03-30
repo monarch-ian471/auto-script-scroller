@@ -17,7 +17,7 @@ body {
 }
 #script-container {
     width: 80%;
-    height: 70vh;
+    height: 85vh;
     overflow: hidden;
     position: relative;
     text-align: center;
@@ -41,7 +41,7 @@ body {
 }
 textarea {
     width: 80%;
-    height: 200px;
+    height: 300px;
     font-size: 1.2em;
     padding: 10px;
 }
